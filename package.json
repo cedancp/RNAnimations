@@ -16,14 +16,23 @@
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/runtime": "^7.10.5",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.1.0",
+    "cz-conventional-changelog": "3.2.0",
     "eslint": "^7.4.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
     "metro-react-native-babel-preset": "^0.60.0",
     "react-test-renderer": "16.13.1"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
