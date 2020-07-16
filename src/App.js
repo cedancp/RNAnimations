@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
+import {StatusBar, Text} from 'react-native';
+import Background from './Components/Background/Background';
 
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView></SafeAreaView>
+      <Background testID="background" />
     </>
   );
 };
