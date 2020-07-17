@@ -1,23 +1,31 @@
 import React, {useRef, useEffect} from 'react';
-import {View, Animated, Dimensions} from 'react-native';
+import {View, Animated} from 'react-native';
 import styles from './styles';
+import {
+  ANIM_DURATION,
+  DAMPING,
+  BOTTOM_CONTAINER_HEIGHT,
+  TOP_CONTAINER_HEIGHT,
+} from './backgroundConstants';
 
 const Background = () => {
-  const bottomSlideUp = useRef(new Animated.Value(0)).current;
-  const topSlideUp = useRef(new Animated.Value(0)).current;
+  const bottomSlideUp = useRef();
+  const topSlideUp = useRef();
 
   const slideUp = () => {
-    Animated.spring(topSlideUp, {
-      toValue: -150,
-      duration: 800,
-      damping: 30,
+    bottomSlideUp.current = new Animated.Value(0);
+    topSlideUp.current = new Animated.Value(0);
+    Animated.spring(topSlideUp.current, {
+      toValue: -TOP_CONTAINER_HEIGHT,
+      duration: ANIM_DURATION,
+      damping: DAMPING,
       useNativeDriver: true,
     }).start();
 
-    Animated.spring(bottomSlideUp, {
-      toValue: -Dimensions.get('window').height * 0.6,
-      duration: 800,
-      damping: 30,
+    Animated.spring(bottomSlideUp.current, {
+      toValue: -BOTTOM_CONTAINER_HEIGHT,
+      duration: ANIM_DURATION,
+      damping: DAMPING,
       useNativeDriver: true,
     }).start();
   };

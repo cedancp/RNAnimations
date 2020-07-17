@@ -130,7 +130,10 @@ module.exports = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['<rootDir>/__mocks__/mock.js'],
+  setupFiles: [
+    '<rootDir>/__mocks__/mock.js',
+    '<rootDir>/__mocks__/timeTravel.js',
+  ],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],

@@ -1,4 +1,8 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {
+  BOTTOM_CONTAINER_HEIGHT,
+  TOP_CONTAINER_HEIGHT,
+} from './backgroundConstants';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: Dimensions.get('window').width / 2,
     borderBottomWidth: 0,
-    borderTopWidth: 150,
+    borderTopWidth: TOP_CONTAINER_HEIGHT,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#424A93',
@@ -77,9 +81,9 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     position: 'absolute',
-    bottom: -Dimensions.get('window').height * 0.6,
+    bottom: -BOTTOM_CONTAINER_HEIGHT,
     width: '100%',
-    height: Dimensions.get('window').height * 0.6,
+    height: BOTTOM_CONTAINER_HEIGHT,
     backgroundColor: 'transparent',
   },
   bottomTopRectangle: {
