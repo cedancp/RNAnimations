@@ -9,20 +9,18 @@ import {
 } from './backgroundConstants';
 
 const Background = () => {
-  const bottomSlideUp = useRef();
-  const topSlideUp = useRef();
+  const bottomSlideUp = useRef(new Animated.Value(0)).current;
+  const topSlideUp = useRef(new Animated.Value(0)).current;
 
   const slideUp = () => {
-    bottomSlideUp.current = new Animated.Value(0);
-    topSlideUp.current = new Animated.Value(0);
-    Animated.spring(topSlideUp.current, {
+    Animated.spring(topSlideUp, {
       toValue: -TOP_CONTAINER_HEIGHT,
       duration: ANIM_DURATION,
       damping: DAMPING,
       useNativeDriver: true,
     }).start();
 
-    Animated.spring(bottomSlideUp.current, {
+    Animated.spring(bottomSlideUp, {
       toValue: -BOTTOM_CONTAINER_HEIGHT,
       duration: ANIM_DURATION,
       damping: DAMPING,

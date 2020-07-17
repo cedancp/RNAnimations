@@ -7,14 +7,23 @@
  */
 
 import React from 'react';
-import {StatusBar, Text} from 'react-native';
+import {StatusBar} from 'react-native';
 import Background from './Components/Background/Background';
+import Profile from './Components/Profile/Profile';
+import images from '@assets';
+import styles from './styles';
 
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <Background testID="background" />
+      <Background />
+      <Profile
+        style={styles.profile}
+        image={images.profileImage}
+        name="Lottie Curtis"
+        notification="You have 3 products"
+      />
     </>
   );
 };

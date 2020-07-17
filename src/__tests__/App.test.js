@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import 'react-native';
 import React from 'react';
 import App from '../App';
@@ -18,4 +14,10 @@ it('should render Background', () => {
   const {getByTestId} = render(<App />);
 
   getByTestId('background');
+});
+
+it('should render Profile', () => {
+  const {getByTestId} = render(<App />);
+
+  getByTestId('profile');
 });

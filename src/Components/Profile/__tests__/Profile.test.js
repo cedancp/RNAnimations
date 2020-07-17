@@ -4,7 +4,7 @@ import Profile from '../Profile';
 
 describe('Profile component', () => {
   const props = {
-    image: 'testImage',
+    image: 1234,
     name: 'Test Name',
     notification: 'test notification',
   };
