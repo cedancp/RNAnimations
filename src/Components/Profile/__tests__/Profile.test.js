@@ -1,6 +1,7 @@
 import {render} from 'react-native-testing-library';
 import React from 'react';
 import Profile from '../Profile';
+import { Animated } from 'react-native';
 
 describe('Profile component', () => {
   const props = {
@@ -44,6 +45,12 @@ describe('Profile component', () => {
   it('should show product notification', () => {
     const {getByTestId} = wraper();
     getByTestId('profile-notification');
+  });
+
+  it('should start animations', () => {
+    const animatedSpy = jest.spyOn(Animated, 'timing');
+    wraper();
+    expect(animatedSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should show notification message', () => {

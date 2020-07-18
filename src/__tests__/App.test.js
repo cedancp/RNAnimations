@@ -6,18 +6,20 @@ import App from '../App';
 import renderer from 'react-test-renderer';
 import {render} from 'react-native-testing-library';
 
-it('renders correctly', () => {
-  renderer.create(<App />);
-});
+describe('App', () => {
+  it('renders correctly', () => {
+    renderer.create(<App />);
+  });
 
-it('should render Background', () => {
-  const {getByTestId} = render(<App />);
+  it('should render Background', () => {
+    const {getByTestId} = render(<App />);
 
-  getByTestId('background');
-});
+    getByTestId('background');
+  });
 
-it('should render Profile', () => {
-  const {getByTestId} = render(<App />);
+  it('should render Profile', () => {
+    const {getByTestId} = render(<App />);
 
-  getByTestId('profile');
+    getByTestId('profile');
+  });
 });

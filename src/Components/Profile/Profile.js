@@ -1,11 +1,27 @@
-import React from 'react';
-import {View, Image, Text} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {View, Image, Text, Animated} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
 const Profile = ({style, image, name, notification}) => {
+  const slideUp = useRef(new Animated.Value(150)).current;
+
+  const startAnimations = () => {
+    Animated.timing(slideUp, {
+      toValue: 0,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  useEffect(() => {
+    startAnimations();
+  }, []);
+
   return (
-    <View testID="profile" style={[style, styles.container]}>
+    <Animated.View
+      testID="profile"
+      style={[style, styles.container, {transform: [{translateY: slideUp}]}]}>
       <Image testID="profile-image" source={image} />
       <Text testID="profile-name" style={styles.name}>
         {name}
@@ -15,7 +31,7 @@ const Profile = ({style, image, name, notification}) => {
           {notification}
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

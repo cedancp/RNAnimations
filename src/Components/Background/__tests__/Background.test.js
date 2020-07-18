@@ -8,21 +8,15 @@ describe('Background component', () => {
   it('should render correctly Background', () => {
     render(<Background />);
   });
-  it('should render background container', () => {
-    global.withAnimatedTimeTravelEnabled(() => {
-      const {getByTestId} = render(<Background />);
-      global.timeTravel(ANIM_DURATION);
 
-      getByTestId('background');
-    });
+  it('should render background container', () => {
+    const {getByTestId} = render(<Background />);
+    getByTestId('background');
   });
 
   it('should start animations', () => {
-    global.withAnimatedTimeTravelEnabled(() => {
-      const animatedSpy = jest.spyOn(Animated, 'spring');
-      render(<Background />);
-      global.timeTravel(ANIM_DURATION);
-      expect(animatedSpy).toHaveBeenCalledTimes(2);
-    });
+    const animatedSpy = jest.spyOn(Animated, 'timing');
+    render(<Background />);
+    expect(animatedSpy).toHaveBeenCalledTimes(3);
   });
 });

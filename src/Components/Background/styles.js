@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     backgroundColor: '#303371',
+  },
+  topContainerFirst: {
     paddingBottom: 40,
   },
   lightBlueTopTriangle: {
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flexDirection: 'row',
-    backgroundColor: 'transparent',
+    backgroundColor: '#FF6493',
   },
   lightBlueLeftTriangle: {
     width: 0,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#424A93',
     borderRightColor: 'transparent',
     borderTopColor: '#303371',
-    borderBottomColor: 'transparent',
+    borderBottomColor: '#FF6493',
   },
   greenRightTriangle: {
     width: 0,
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#424A93',
     borderRightColor: '#02ED89',
     borderTopColor: '#303371',
-    borderBottomColor: 'transparent',
+    borderBottomColor: '#FF6493',
   },
   bottomDarkTriangle: {
     position: 'absolute',
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     position: 'absolute',
-    bottom: -BOTTOM_CONTAINER_HEIGHT,
+    bottom: 0,
     width: '100%',
     height: BOTTOM_CONTAINER_HEIGHT,
     backgroundColor: 'transparent',

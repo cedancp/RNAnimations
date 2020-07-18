@@ -3,29 +3,39 @@ import {View, Animated} from 'react-native';
 import styles from './styles';
 import {
   ANIM_DURATION,
-  DAMPING,
   BOTTOM_CONTAINER_HEIGHT,
   TOP_CONTAINER_HEIGHT,
 } from './backgroundConstants';
 
 const Background = () => {
-  const bottomSlideUp = useRef(new Animated.Value(0)).current;
   const topSlideUp = useRef(new Animated.Value(0)).current;
+  const midSlideUp = useRef(new Animated.Value(0)).current;
+  const bottomSlideUp = useRef(new Animated.Value(BOTTOM_CONTAINER_HEIGHT))
+    .current;
 
   const slideUp = () => {
-    Animated.spring(topSlideUp, {
-      toValue: -TOP_CONTAINER_HEIGHT,
-      duration: ANIM_DURATION,
-      damping: DAMPING,
-      useNativeDriver: true,
-    }).start();
+    Animated.sequence([
+      Animated.delay(0),
+      Animated.parallel([
+        Animated.timing(topSlideUp, {
+          toValue: -TOP_CONTAINER_HEIGHT,
+          duration: TOP_CONTAINER_HEIGHT,
+          useNativeDriver: true,
+        }),
 
-    Animated.spring(bottomSlideUp, {
-      toValue: -BOTTOM_CONTAINER_HEIGHT,
-      duration: ANIM_DURATION,
-      damping: DAMPING,
-      useNativeDriver: true,
-    }).start();
+        Animated.timing(midSlideUp, {
+          toValue: -TOP_CONTAINER_HEIGHT,
+          duration: ANIM_DURATION,
+          useNativeDriver: true,
+        }),
+
+        Animated.timing(bottomSlideUp, {
+          toValue: 0,
+          duration: ANIM_DURATION,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start();
   };
 
   useEffect(() => {
@@ -38,20 +48,22 @@ const Background = () => {
         style={[
           styles.topContainer,
           {
-            transform: [{translateY: topSlideUp}],
+            transform: [{translateY: midSlideUp}],
           },
         ]}>
-        <View style={styles.lightBlueTopTriangle} />
-      </Animated.View>
-      <Animated.View
-        style={[
-          styles.middleContainer,
-          {
-            transform: [{translateY: topSlideUp}],
-          },
-        ]}>
-        <View style={styles.lightBlueLeftTriangle} />
-        <View style={styles.greenRightTriangle} />
+        <Animated.View
+          style={[
+            styles.topContainerFirst,
+            {
+              transform: [{translateY: topSlideUp}],
+            },
+          ]}>
+          <View style={styles.lightBlueTopTriangle} />
+        </Animated.View>
+        <View style={styles.middleContainer}>
+          <View style={styles.lightBlueLeftTriangle} />
+          <View style={styles.greenRightTriangle} />
+        </View>
       </Animated.View>
       <View style={styles.bottomDarkTriangle} />
       <Animated.View
