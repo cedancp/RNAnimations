@@ -1,0 +1,59 @@
+import {render} from 'react-native-testing-library';
+import React from 'react';
+import Product from '../Product';
+
+describe('Product item', () => {
+  const props = {
+    image: 1231,
+    title: 'Test title',
+    description: 'Test description',
+  };
+
+  const wrapper = () => {
+    return render(<Product {...props} />);
+  };
+
+  it('should render correctly Product', () => {
+    wrapper();
+  });
+
+  it('should render container', () => {
+    const {getByTestId} = wrapper();
+
+    getByTestId('container-product');
+  });
+
+  it('should render product image', () => {
+    const {getByTestId} = wrapper();
+
+    getByTestId('image-product');
+  });
+
+  it('should render inner information container', () => {
+    const {getByTestId} = wrapper();
+
+    getByTestId('card-product');
+  });
+
+  it('should render product title with text', () => {
+    const {getByTestId} = wrapper();
+
+    const title = getByTestId('title-product');
+
+    expect(title.children[0]).toBe(props.title);
+  });
+
+  it('should render product description with text', () => {
+    const {getByTestId} = wrapper();
+
+    const description = getByTestId('description-product');
+
+    expect(description.children[0]).toBe(props.description);
+  });
+
+  it('should render view product', () => {
+    const {getByTestId} = wrapper();
+
+    getByTestId('view-product');
+  });
+});

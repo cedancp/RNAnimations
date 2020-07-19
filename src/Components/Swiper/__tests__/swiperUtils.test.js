@@ -1,5 +1,9 @@
 const {Dimensions} = require('react-native');
-import {getScrollPadding, getItemMarginLeft, getItemOffsets} from '../swiperUtils';
+import {
+  getScrollPadding,
+  getItemMarginLeft,
+  getItemOffsets,
+} from '../swiperUtils';
 
 describe('Swiper utils', () => {
   const itemWidht = 200;
