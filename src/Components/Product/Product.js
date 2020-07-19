@@ -4,7 +4,7 @@ import {View, Text, TouchableOpacity, Animated} from 'react-native';
 import styles from './styles';
 import {SLIDE, DAMPING} from './productConstants';
 
-const Product = ({image, title, description, active}) => {
+const Product = ({image, title, description, active, delay}) => {
   const scaleImage = useRef(new Animated.Value(0)).current;
   const slideTitle = useRef(new Animated.Value(SLIDE)).current;
   const slideDescription = useRef(new Animated.Value(SLIDE)).current;
@@ -12,34 +12,37 @@ const Product = ({image, title, description, active}) => {
   const slide = useRef(new Animated.Value(40)).current;
 
   const startEntryAnimation = () => {
-    Animated.parallel([
-      Animated.spring(slide, {
-        toValue: 0,
-        damping: 20,
-        useNativeDriver: true,
-      }),
-      Animated.spring(scaleImage, {
-        toValue: 1,
-        damping: DAMPING,
-        useNativeDriver: true,
-      }),
-      Animated.spring(slideTitle, {
-        toValue: 0,
-        damping: DAMPING,
-        useNativeDriver: true,
-      }),
-      Animated.spring(slideDescription, {
-        toValue: 0,
-        damping: DAMPING,
-        delay: 100,
-        useNativeDriver: true,
-      }),
-      Animated.spring(slideView, {
-        toValue: 0,
-        damping: DAMPING,
-        delay: 200,
-        useNativeDriver: true,
-      }),
+    Animated.sequence([
+      Animated.delay(delay),
+      Animated.parallel([
+        Animated.spring(slide, {
+          toValue: 0,
+          damping: 20,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scaleImage, {
+          toValue: 1,
+          damping: DAMPING,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideTitle, {
+          toValue: 0,
+          damping: DAMPING,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideDescription, {
+          toValue: 0,
+          damping: DAMPING,
+          delay: 100,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideView, {
+          toValue: 0,
+          damping: DAMPING,
+          delay: 200,
+          useNativeDriver: true,
+        }),
+      ]),
     ]).start();
   };
 
@@ -156,6 +159,7 @@ Product.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   active: PropTypes.bool,
+  delay: PropTypes.number,
 };
 
 export default Product;

@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import Background from './Components/Background/Background';
 import Profile from './Components/Profile/Profile';
@@ -18,6 +18,7 @@ import products from './data/products';
 import Product from './Components/Product/Product';
 
 const App = () => {
+  const delayProduct = useRef(300);
   const renderProductsItem = (item, index, active) => {
     return (
       <Product
@@ -25,9 +26,14 @@ const App = () => {
         description={item.description}
         image={item.image}
         active={active}
+        delay={delayProduct.current}
       />
     );
   };
+
+  useEffect(() => {
+    delayProduct.current = 0;
+  }, []);
 
   return (
     <>
