@@ -1,17 +1,27 @@
 import {render} from 'react-native-testing-library';
 import React from 'react';
 import Product from '../Product';
+import {Animated} from 'react-native';
 
 describe('Product item', () => {
   const props = {
     image: 1231,
     title: 'Test title',
     description: 'Test description',
+    active: false,
   };
 
-  const wrapper = () => {
-    return render(<Product {...props} />);
+  const wrapper = (active = false) => {
+    const newProps = {
+      ...props,
+      active,
+    };
+    return render(<Product {...newProps} />);
   };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should render correctly Product', () => {
     wrapper();
@@ -55,5 +65,17 @@ describe('Product item', () => {
     const {getByTestId} = wrapper();
 
     getByTestId('view-product');
+  });
+
+  it('should start animation when switching to active', () => {
+    const animatedSpy = jest.spyOn(Animated, 'parallel');
+    wrapper(true);
+    expect(animatedSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should start animation when switching to inctive', () => {
+    const animatedSpy = jest.spyOn(Animated, 'parallel');
+    wrapper(false);
+    expect(animatedSpy).toHaveBeenCalledTimes(1);
   });
 });

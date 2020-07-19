@@ -10,51 +10,51 @@ describe('Profile component', () => {
     notification: 'test notification',
   };
 
-  const wraper = () => {
+  const wrapper = () => {
     return render(<Profile {...props} />);
   };
 
   it('should render correctly Profile', () => {
-    wraper();
+    wrapper();
   });
 
   it('should render Profile container', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     getByTestId('profile');
   });
 
   it('should render profile image', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     getByTestId('profile-image');
   });
 
   it('should set the image from props', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     const imageContainer = getByTestId('profile-image');
 
     expect(imageContainer.props.source).toBe(props.image);
   });
 
   it('should show profile name', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     const nameContainer = getByTestId('profile-name');
 
     expect(nameContainer.props.children).toBe(props.name);
   });
 
   it('should show product notification', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     getByTestId('profile-notification');
   });
 
   it('should start animations', () => {
     const animatedSpy = jest.spyOn(Animated, 'parallel');
-    wraper();
+    wrapper();
     expect(animatedSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should show notification message', () => {
-    const {getByTestId} = wraper();
+    const {getByTestId} = wrapper();
     const notificationText = getByTestId('notification');
 
     expect(notificationText.props.children).toBe(props.notification);

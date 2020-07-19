@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     backgroundColor: 'transparent',
     width: 248,
   },
@@ -11,6 +10,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 40,
     zIndex: 9999,
+    alignSelf: 'center',
   },
   card: {
     alignItems: 'center',
