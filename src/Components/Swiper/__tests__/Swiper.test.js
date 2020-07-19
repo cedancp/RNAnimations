@@ -6,7 +6,7 @@ import {
   getItemMarginLeft,
   getItemOffsets,
 } from '../swiperUtils';
-import { Animated } from 'react-native';
+import {Animated} from 'react-native';
 
 describe('Swiper component', () => {
   const mockOnSnap = jest.fn();
@@ -38,7 +38,7 @@ describe('Swiper component', () => {
     const scrollViewComponent = getByTestId('swiper');
     const scrollViewStyle = scrollViewComponent.props.contentContainerStyle;
 
-    expect(scrollViewStyle).toHaveProperty(
+    expect(scrollViewStyle[1]).toHaveProperty(
       'paddingHorizontal',
       expectedPadding,
     );
@@ -169,5 +169,11 @@ describe('Swiper component', () => {
     const animatedSpy = jest.spyOn(Animated, 'spring');
     wrapper();
     expect(animatedSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render dots', () => {
+    const {getByTestId} = wrapper();
+
+    getByTestId('dots');
   });
 });

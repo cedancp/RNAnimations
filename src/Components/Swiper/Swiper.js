@@ -1,11 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Dimensions, View, Animated} from 'react-native';
+import {Dimensions, View, Animated, ScrollView} from 'react-native';
 import {
   getScrollPadding,
   getItemMarginLeft,
   getItemOffsets,
 } from './swiperUtils';
+import Dot from './Dot/Dot';
+import styles from './styles';
 
 const Swiper = ({
   itemWidth,
@@ -71,36 +73,52 @@ const Swiper = ({
   }, []);
 
   return (
-    <Animated.ScrollView
-      testID="swiper"
-      ref={scrollViewRef}
+    <Animated.View
       style={{
         transform: [{translateX: slideIn}],
-      }}
-      contentContainerStyle={{
-        paddingHorizontal: scrollPadding,
-      }}
-      disableIntervalMomentum={true}
-      disableScrollViewPanResponder={true}
-      bounces={false}
-      pagingEnabled={true}
-      onScroll={_onScroll}
-      onMomentumScrollEnd={_onMomentumScrollEnd}
-      scrollEventThrottle={1}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      snapToInterval={screenWidth - 2 * nextItemVisibleOffset}
-      snapToAlignment={'center'}
-      decelerationRate={0.9}>
-      {items.map((item, index) => (
-        <View
-          testID={`item-${index}`}
-          key={`item-${index}`}
-          style={index !== 0 && {marginLeft: itemMarginLeft}}>
-          {renderItem(item, index, index === active)}
-        </View>
-      ))}
-    </Animated.ScrollView>
+      }}>
+      <ScrollView
+        testID="swiper"
+        ref={scrollViewRef}
+        contentContainerStyle={[
+          styles.cardsContainer,
+          {
+            paddingHorizontal: scrollPadding,
+          },
+        ]}
+        disableIntervalMomentum={true}
+        disableScrollViewPanResponder={true}
+        bounces={false}
+        pagingEnabled={true}
+        onScroll={_onScroll}
+        onMomentumScrollEnd={_onMomentumScrollEnd}
+        scrollEventThrottle={1}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={screenWidth - 2 * nextItemVisibleOffset}
+        snapToAlignment={'center'}
+        decelerationRate={0.9}>
+        {items.map((item, index) => (
+          <View
+            testID={`item-${index}`}
+            key={`item-${index}`}
+            style={index !== 0 && {marginLeft: itemMarginLeft}}>
+            {renderItem(item, index, index === active)}
+          </View>
+        ))}
+      </ScrollView>
+      <View testID="dots" style={styles.dots}>
+        {items.map((item, index) => (
+          <Dot
+            key={`dot-${index}`}
+            style={styles.dot}
+            color="#A0A9B8"
+            activeColor="#424A93"
+            active={index === active}
+          />
+        ))}
+      </View>
+    </Animated.View>
   );
 };
 
