@@ -12,6 +12,7 @@ import Background from './Components/Background/Background';
 import Profile from './Components/Profile/Profile';
 import images from '@assets';
 import styles from './styles';
+import Swiper from './Components/Swiper/Swiper';
 
 const App = () => {
   return (
