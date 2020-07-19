@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
+import {productCardWidth} from '../../config/constants';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
-    width: 248,
+    width: productCardWidth,
   },
   image: {
     height: 80,
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     height: 360,
-    shadowOffset: {width: 5, height: 5},
-    shadowOpacity: 0.15,
+    shadowOffset: {width: 0, height: 15},
+    shadowOpacity: 0.2,
     shadowRadius: 15,
     paddingTop: 64,
     paddingHorizontal: 41,

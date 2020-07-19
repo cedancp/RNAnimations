@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {ScrollView, View, Text} from 'react-native';
+import {Dimensions, View, Animated} from 'react-native';
 import {
   getScrollPadding,
   getItemMarginLeft,
@@ -12,10 +12,14 @@ const Swiper = ({
   nextItemVisibleOffset,
   items,
   renderItem,
-  onSnap,
+  animationDelay,
 }) => {
   const [active, setActive] = useState(0);
-  const scrollView = useRef();
+  const [isScrolling, setIsScrolling] = useState(false);
+  const screenWidth = Dimensions.get('window').width;
+  const xOffset = useRef(0);
+  const scrollViewRef = useRef();
+  const slideIn = useRef(new Animated.Value(screenWidth)).current;
   const scrollPadding = getScrollPadding(itemWidth);
   const itemMarginLeft = getItemMarginLeft(
     scrollPadding,
@@ -27,52 +31,76 @@ const Swiper = ({
     nextItemVisibleOffset,
   );
 
-  const _onScrollEndDrag = ({nativeEvent}) => {
+  const _onScroll = ({nativeEvent}) => {
     const scrollEndOffset = nativeEvent.contentOffset.x;
-    const nextSnapOffset = itemOffsets[active] + itemWidth / 2 - 50;
-    const previousSnapOffset = itemOffsets[active] - itemWidth / 2 + 50;
+    const nextSnapOffset = itemOffsets[active] + itemWidth / 2;
+    const previousSnapOffset = itemOffsets[active] - itemWidth / 2;
     const nextActive = active + 1;
     const previousActive = active - 1;
-    if (scrollEndOffset > nextSnapOffset) {
-      onSnap(nextActive);
-      snapToActive(itemOffsets[nextActive]);
-      setActive(nextActive);
-    } else if (scrollEndOffset <= previousSnapOffset) {
-      onSnap(previousActive);
-      snapToActive(itemOffsets[previousActive]);
-      setActive(previousActive);
-    } else {
-      snapToActive(itemOffsets[active]);
-      onSnap(active);
+    xOffset.current = scrollEndOffset;
+    if (isScrolling === false) {
+      if (scrollEndOffset > nextSnapOffset && active < items.length - 1) {
+        setIsScrolling(true);
+        setActive(nextActive);
+      } else if (scrollEndOffset <= previousSnapOffset && active > 0) {
+        setIsScrolling(true);
+        setActive(previousActive);
+      }
     }
   };
 
-  const snapToActive = () => {
-    scrollView.current.scrollTo({x: itemOffsets[active], animated: true});
+  const _onMomentumScrollEnd = () => {
+    setIsScrolling(false);
+    let currentActive = 0;
+    itemOffsets.forEach((offset, index) => {
+      if (xOffset.current >= offset) {
+        currentActive = index;
+      }
+    });
+
+    setActive(currentActive);
   };
 
+  useEffect(() => {
+    Animated.spring(slideIn, {
+      toValue: 0,
+      damping: 20,
+      delay: animationDelay,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   return (
-    <ScrollView
+    <Animated.ScrollView
       testID="swiper"
-      ref={scrollView}
+      ref={scrollViewRef}
+      style={{
+        transform: [{translateX: slideIn}],
+      }}
       contentContainerStyle={{
         paddingHorizontal: scrollPadding,
       }}
-      onScrollEndDrag={_onScrollEndDrag}
-      onScroll={null} // Set to mull just so test can simulate scroll
+      disableIntervalMomentum={true}
+      disableScrollViewPanResponder={true}
+      bounces={false}
+      pagingEnabled={true}
+      onScroll={_onScroll}
+      onMomentumScrollEnd={_onMomentumScrollEnd}
       scrollEventThrottle={1}
       horizontal={true}
-      snapToOffsets={itemOffsets}
-      decelerationRate={0}>
+      showsHorizontalScrollIndicator={false}
+      snapToInterval={screenWidth - 2 * nextItemVisibleOffset}
+      snapToAlignment={'center'}
+      decelerationRate={0.9}>
       {items.map((item, index) => (
         <View
           testID={`item-${index}`}
-          key={item.toString()}
+          key={`item-${index}`}
           style={index !== 0 && {marginLeft: itemMarginLeft}}>
-          {renderItem(item)}
+          {renderItem(item, index, index === active)}
         </View>
       ))}
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
@@ -81,7 +109,7 @@ Swiper.propTypes = {
   nextItemVisibleOffset: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
   renderItem: PropTypes.func.isRequired,
-  onSnap: PropTypes.func,
+  animationDelay: PropTypes.number,
 };
 
 export default Swiper;

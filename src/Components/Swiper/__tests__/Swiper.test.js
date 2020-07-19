@@ -6,6 +6,7 @@ import {
   getItemMarginLeft,
   getItemOffsets,
 } from '../swiperUtils';
+import { Animated } from 'react-native';
 
 describe('Swiper component', () => {
   const mockOnSnap = jest.fn();
@@ -13,7 +14,7 @@ describe('Swiper component', () => {
   const props = {
     itemWidth: 200,
     nextItemVisibleOffset: 40,
-    items: [1, 2, 3, 4],
+    items: [1, 2, 3],
     onSnap: mockOnSnap,
     renderItem: mockRenderItem,
   };
@@ -45,7 +46,6 @@ describe('Swiper component', () => {
 
   it('should not set marginLeft when is the first item', () => {
     const {getByTestId} = wrapper();
-    const expectedMarginLeft = 0;
 
     const fisrtItem = getByTestId('item-0');
     const firstItemStyle = fisrtItem.props.style;
@@ -66,86 +66,108 @@ describe('Swiper component', () => {
     expect(firstItemStyle).toHaveProperty('marginLeft', expectedMarginLeft);
   });
 
-  it('should set offsets', () => {
-    const {getByTestId} = wrapper();
-    const expectedOffsets = getItemOffsets(
-      props.items.length,
+  it('should set second item as active', () => {
+    const itemsOffset = getItemOffsets(
+      3,
       getScrollPadding(props.itemWidth),
       props.nextItemVisibleOffset,
     );
 
-    const scrollViewComponent = getByTestId('swiper');
-    const snapToOffsetsProps = scrollViewComponent.props.snapToOffsets;
+    const eventData = {
+      nativeEvent: {
+        contentOffset: {
+          x: itemsOffset[1],
+        },
+      },
+    };
+    const {getByTestId, update} = wrapper();
 
-    expect(snapToOffsetsProps).toStrictEqual(expectedOffsets);
+    const scrollViewComponent = getByTestId('swiper');
+    fireEvent.scroll(scrollViewComponent, eventData);
+
+    update(<Swiper {...props} />);
+
+    expect(
+      mockRenderItem.mock.calls[mockRenderItem.mock.calls.length - 2],
+    ).toEqual([2, 1, true]);
   });
 
-  it('should snap to next item when scroll ends and is bigger than half next offset', () => {
-    const expectedNextItemSnap = 1;
+  it('should set first item as active after scrolling back', () => {
+    const itemsOffset = getItemOffsets(
+      3,
+      getScrollPadding(props.itemWidth),
+      props.nextItemVisibleOffset,
+    );
 
     const eventData = {
       nativeEvent: {
         contentOffset: {
-          x: props.itemWidth / 2 + 1,
+          x: itemsOffset[1],
         },
       },
     };
-    const {getByTestId} = wrapper();
-
-    const scrollViewComponent = getByTestId('swiper');
-    fireEvent(scrollViewComponent, 'scrollEndDrag', eventData);
-
-    expect(mockOnSnap).toHaveBeenCalledWith(expectedNextItemSnap);
-  });
-
-  it('should snap to previous item when scroll ends and is bigger than half previous offset', () => {
-    const expectedNextItemSnap = 0;
-
-    const eventData = {
-      nativeEvent: {
-        contentOffset: {
-          x: props.itemWidth / 2 + 1,
-        },
-      },
-    };
-
     const eventDataBack = {
       nativeEvent: {
         contentOffset: {
-          x: props.itemWidth / 2 + 1,
+          x: 0,
         },
       },
     };
-    const {getByTestId} = wrapper();
+    const {getByTestId, update} = wrapper();
 
     const scrollViewComponent = getByTestId('swiper');
-    fireEvent(scrollViewComponent, 'scrollEndDrag', eventData);
-    fireEvent(scrollViewComponent, 'scrollEndDrag', eventDataBack);
+    fireEvent.scroll(scrollViewComponent, eventData);
+    fireEvent(scrollViewComponent, 'momentumScrollEnd', eventData);
+    update(<Swiper {...props} />);
+    fireEvent.scroll(scrollViewComponent, eventDataBack);
+    update(<Swiper {...props} />);
 
-    expect(mockOnSnap).toHaveBeenCalledWith(expectedNextItemSnap);
+    expect(
+      mockRenderItem.mock.calls[mockRenderItem.mock.calls.length - 3],
+    ).toEqual([1, 0, true]);
   });
 
-  it('should snap to current item when scroll ends and is not bigger than half previous offset', () => {
-    const expectedNextItemSnap = 0;
+  it('should not set active if scrolling is ongoing', () => {
+    const itemsOffset = getItemOffsets(
+      3,
+      getScrollPadding(props.itemWidth),
+      props.nextItemVisibleOffset,
+    );
 
     const eventData = {
       nativeEvent: {
         contentOffset: {
-          x: 10,
+          x: itemsOffset[1],
+        },
+      },
+    };
+    const eventDataBack = {
+      nativeEvent: {
+        contentOffset: {
+          x: 0,
         },
       },
     };
     const {getByTestId} = wrapper();
 
     const scrollViewComponent = getByTestId('swiper');
-    fireEvent(scrollViewComponent, 'scrollEndDrag', eventData);
+    fireEvent.scroll(scrollViewComponent, eventData);
+    fireEvent.scroll(scrollViewComponent, eventDataBack);
 
-    expect(mockOnSnap).toHaveBeenCalledWith(expectedNextItemSnap);
+    expect(
+      mockRenderItem.mock.calls[mockRenderItem.mock.calls.length - 2],
+    ).toEqual([2, 1, true]);
   });
 
   it('should call render item for each data element', () => {
     wrapper();
 
     expect(mockRenderItem).toHaveBeenCalledTimes(props.items.length);
+  });
+
+  it('should call slide in animation', () => {
+    const animatedSpy = jest.spyOn(Animated, 'spring');
+    wrapper();
+    expect(animatedSpy).toHaveBeenCalledTimes(1);
   });
 });

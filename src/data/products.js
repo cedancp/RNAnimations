@@ -15,7 +15,7 @@ const products = [
     title: 'Add a Wearable',
     description:
       'Don’t See One You Like? Choosing the Best Gemstone for Your Necklace and Jewelry',
-    image: images.add_icon,
+    image: images.addIcon,
   },
 ];
 

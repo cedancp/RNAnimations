@@ -9,9 +9,15 @@ const Product = ({image, title, description, active}) => {
   const slideTitle = useRef(new Animated.Value(SLIDE)).current;
   const slideDescription = useRef(new Animated.Value(SLIDE)).current;
   const slideView = useRef(new Animated.Value(SLIDE)).current;
+  const slide = useRef(new Animated.Value(40)).current;
 
   const startEntryAnimation = () => {
     Animated.parallel([
+      Animated.spring(slide, {
+        toValue: 0,
+        damping: 20,
+        useNativeDriver: true,
+      }),
       Animated.spring(scaleImage, {
         toValue: 1,
         damping: DAMPING,
@@ -39,6 +45,11 @@ const Product = ({image, title, description, active}) => {
 
   const startOutAnimation = () => {
     Animated.parallel([
+      Animated.spring(slide, {
+        toValue: 40,
+        damping: 20,
+        useNativeDriver: true,
+      }),
       Animated.spring(scaleImage, {
         toValue: 0,
         damping: DAMPING,
@@ -73,7 +84,14 @@ const Product = ({image, title, description, active}) => {
   }, [active]);
 
   return (
-    <View testID="container-product" style={styles.container}>
+    <Animated.View
+      testID="container-product"
+      style={[
+        styles.container,
+        {
+          transform: [{translateY: slide}],
+        },
+      ]}>
       <Animated.Image
         testID="image-product"
         style={[
@@ -129,7 +147,7 @@ const Product = ({image, title, description, active}) => {
           </TouchableOpacity>
         </Animated.View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
