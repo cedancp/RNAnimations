@@ -17,6 +17,7 @@ import {productCardWidth} from './config/constants';
 import products from './data/products';
 import Product from './Components/Product/Product';
 import BottomTabBar from './Components/BottomTabBar/BottomTabBar';
+import { TYPE_BUTTON, TYPE_PRODUCT } from './Components/Product/productConstants';
 
 const App = () => {
   const delayProduct = useRef(300);
@@ -28,6 +29,7 @@ const App = () => {
         image={item.image}
         active={active}
         delay={delayProduct.current}
+        type={index === products.length - 1 ? TYPE_BUTTON : TYPE_PRODUCT}
       />
     );
   };

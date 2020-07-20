@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     width: productCardWidth,
   },
+  containerPaddingButton: {
+    paddingTop: 80,
+  },
   image: {
     height: 80,
     position: 'relative',
@@ -17,6 +20,10 @@ const styles = StyleSheet.create({
         elevation: 6,
       },
     }),
+  },
+  button: {
+    height: 80,
+    alignSelf: 'center',
   },
   card: {
     alignItems: 'center',
@@ -34,10 +41,12 @@ const styles = StyleSheet.create({
         elevation: 5,
       },
     }),
-
     paddingTop: screenHeight * 0.07,
-    paddingHorizontal: 41,
+    paddingHorizontal: screenHeight * 0.03,
     paddingBottom: screenHeight * 0.05,
+  },
+  cardButtonPaddingTop: {
+    paddingTop: screenHeight * 0.03,
   },
   title: {
     fontFamily: 'Roboto-Bold',

@@ -2,6 +2,7 @@ import {render} from 'react-native-testing-library';
 import React from 'react';
 import Product from '../Product';
 import {Animated} from 'react-native';
+import { TYPE_PRODUCT, TYPE_BUTTON } from '../productConstants';
 
 describe('Product item', () => {
   const props = {
@@ -9,12 +10,14 @@ describe('Product item', () => {
     title: 'Test title',
     description: 'Test description',
     active: false,
+    type: TYPE_PRODUCT,
   };
 
-  const wrapper = (active = false) => {
+  const wrapper = (active = false, type = TYPE_PRODUCT) => {
     const newProps = {
       ...props,
       active,
+      type,
     };
     return render(<Product {...newProps} />);
   };
@@ -77,5 +80,37 @@ describe('Product item', () => {
     const animatedSpy = jest.spyOn(Animated, 'parallel');
     wrapper(false);
     expect(animatedSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show image when type is product', () => {
+    const {getByTestId} = wrapper(true, TYPE_PRODUCT);
+
+    expect(() => getByTestId('image-product')).not.toThrow(
+      'No instances found with testID: image-product',
+    );
+  });
+
+  it('should not show image when type is button', () => {
+    const {getByTestId} = wrapper(true, TYPE_BUTTON);
+
+    expect(() => getByTestId('image-product')).toThrow(
+      'No instances found with testID: image-product',
+    );
+  });
+
+  it('should show button when type is button', () => {
+    const {getByTestId} = wrapper(true, TYPE_BUTTON);
+
+    expect(() => getByTestId('button-product')).not.toThrow(
+      'No instances found with testID: button-product',
+    );
+  });
+
+  it('should not show button when type is product', () => {
+    const {getByTestId} = wrapper(true, TYPE_PRODUCT);
+
+    expect(() => getByTestId('button-product')).toThrow(
+      'No instances found with testID: button-product',
+    );
   });
 });

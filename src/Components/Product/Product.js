@@ -2,9 +2,9 @@ import React, {useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, TouchableOpacity, Animated} from 'react-native';
 import styles from './styles';
-import {SLIDE, DAMPING} from './productConstants';
+import {SLIDE, DAMPING, TYPE_PRODUCT, TYPE_BUTTON} from './productConstants';
 
-const Product = ({image, title, description, active, delay}) => {
+const Product = ({image, title, description, active, delay, type}) => {
   const scaleImage = useRef(new Animated.Value(0)).current;
   const slideTitle = useRef(new Animated.Value(SLIDE)).current;
   const slideDescription = useRef(new Animated.Value(SLIDE)).current;
@@ -91,23 +91,44 @@ const Product = ({image, title, description, active, delay}) => {
       testID="container-product"
       style={[
         styles.container,
+        type === TYPE_BUTTON && styles.containerPaddingButton,
         {
           transform: [{translateY: slide}],
         },
       ]}>
-      <Animated.Image
-        testID="image-product"
+      {type === TYPE_PRODUCT && (
+        <Animated.Image
+          testID="image-product"
+          style={[
+            styles.image,
+            {
+              transform: [{scale: scaleImage}],
+            },
+          ]}
+          resizeMode="contain"
+          source={image}
+        />
+      )}
+      <View
+        testID="card-product"
         style={[
-          styles.image,
-          {
-            transform: [{scale: scaleImage}],
-          },
-        ]}
-        resizeMode="contain"
-        source={image}
-      />
-      <View testID="card-product" style={styles.card}>
+          styles.card,
+          type === TYPE_BUTTON && styles.cardButtonPaddingTop,
+        ]}>
         <View>
+          {type === TYPE_BUTTON && (
+            <Animated.Image
+              testID="button-product"
+              style={[
+                styles.button,
+                {
+                  transform: [{scale: scaleImage}],
+                },
+              ]}
+              resizeMode="contain"
+              source={image}
+            />
+          )}
           <Animated.Text
             testID="title-product"
             style={[
@@ -160,6 +181,7 @@ Product.propTypes = {
   description: PropTypes.string.isRequired,
   active: PropTypes.bool,
   delay: PropTypes.number,
+  type: PropTypes.string.isRequired,
 };
 
 export default Product;
