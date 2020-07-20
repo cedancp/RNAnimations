@@ -74,9 +74,12 @@ const Swiper = ({
 
   return (
     <Animated.View
-      style={{
-        transform: [{translateX: slideIn}],
-      }}>
+      style={[
+        styles.container,
+        {
+          transform: [{translateX: slideIn}],
+        },
+      ]}>
       <ScrollView
         testID="swiper"
         ref={scrollViewRef}

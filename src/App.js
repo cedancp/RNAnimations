@@ -16,6 +16,7 @@ import Swiper from './Components/Swiper/Swiper';
 import {productCardWidth} from './config/constants';
 import products from './data/products';
 import Product from './Components/Product/Product';
+import BottomTabBar from './Components/BottomTabBar/BottomTabBar';
 
 const App = () => {
   const delayProduct = useRef(300);
@@ -52,6 +53,7 @@ const App = () => {
         renderItem={renderProductsItem}
         animationDelay={300}
       />
+      <BottomTabBar delay={300} />
     </>
   );
 };

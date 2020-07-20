@@ -2,17 +2,14 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    width: '100%',
+    position: 'absolute',
+    paddingHorizontal: 40,
+    bottom: 0,
   },
-  cardsContainer: {
-    paddingBottom: 75,
-  },
-  dots: {
+  buttonsContainer: {
     flexDirection: 'row',
-    alignSelf: 'center',
-  },
-  dot: {
-    marginHorizontal: 9,
+    justifyContent: 'space-between',
   },
 });
 
