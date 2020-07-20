@@ -19,7 +19,7 @@ const Background = () => {
       Animated.parallel([
         Animated.timing(topSlideUp, {
           toValue: -TOP_CONTAINER_HEIGHT,
-          duration: TOP_CONTAINER_HEIGHT,
+          duration: ANIM_DURATION,
           useNativeDriver: true,
         }),
 

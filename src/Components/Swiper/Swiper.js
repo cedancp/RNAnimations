@@ -55,7 +55,7 @@ const Swiper = ({
     setIsScrolling(false);
     let currentActive = 0;
     itemOffsets.forEach((offset, index) => {
-      if (xOffset.current >= offset) {
+      if (Math.floor(xOffset.current) >= Math.floor(offset)) {
         currentActive = index;
       }
     });
@@ -90,17 +90,14 @@ const Swiper = ({
           },
         ]}
         disableIntervalMomentum={true}
-        disableScrollViewPanResponder={true}
         bounces={false}
-        pagingEnabled={true}
         onScroll={_onScroll}
         onMomentumScrollEnd={_onMomentumScrollEnd}
         scrollEventThrottle={1}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={screenWidth - 2 * nextItemVisibleOffset}
-        snapToAlignment={'center'}
-        decelerationRate={0.9}>
+        snapToOffsets={itemOffsets}
+        decelerationRate="fast">
         {items.map((item, index) => (
           <View
             testID={`item-${index}`}

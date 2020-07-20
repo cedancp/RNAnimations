@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useRef, useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, ScrollView} from 'react-native';
 import Background from './Components/Background/Background';
 import Profile from './Components/Profile/Profile';
 import images from '@assets';
@@ -40,19 +40,21 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <Background />
-      <Profile
-        style={styles.profile}
-        image={images.profileImage}
-        name="Lottie Curtis"
-        notification="You have 3 products"
-      />
-      <Swiper
-        itemWidth={productCardWidth}
-        items={products}
-        nextItemVisibleOffset={40}
-        renderItem={renderProductsItem}
-        animationDelay={300}
-      />
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Profile
+          style={styles.profile}
+          image={images.profileImage}
+          name="Lottie Curtis"
+          notification="You have 3 products"
+        />
+        <Swiper
+          itemWidth={productCardWidth}
+          items={products}
+          nextItemVisibleOffset={40}
+          renderItem={renderProductsItem}
+          animationDelay={300}
+        />
+      </ScrollView>
       <BottomTabBar delay={300} />
     </>
   );

@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {productCardWidth} from '../../config/constants';
+import {StyleSheet, Platform} from 'react-native';
+import {productCardWidth, screenHeight} from '../../config/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,19 +12,32 @@ const styles = StyleSheet.create({
     top: 40,
     zIndex: 9999,
     alignSelf: 'center',
+    ...Platform.select({
+      android: {
+        elevation: 6,
+      },
+    }),
   },
   card: {
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'white',
     borderRadius: 20,
-    height: 360,
-    shadowOffset: {width: 0, height: 15},
-    shadowOpacity: 0.2,
-    shadowRadius: 15,
-    paddingTop: 64,
+    height: screenHeight * 0.43,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {width: 0, height: 10},
+        shadowOpacity: 0.2,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+
+    paddingTop: screenHeight * 0.07,
     paddingHorizontal: 41,
-    paddingBottom: 43,
+    paddingBottom: screenHeight * 0.05,
   },
   title: {
     fontFamily: 'Roboto-Bold',

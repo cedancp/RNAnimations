@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
+import {screenHeight} from '../../config/constants';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: screenHeight * 0.01,
   },
   cardsContainer: {
-    paddingBottom: 75,
+    paddingBottom: screenHeight * 0.075,
   },
   dots: {
     flexDirection: 'row',

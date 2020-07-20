@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   middleContainer: {
     flexDirection: 'row',
     backgroundColor: '#FF6493',
+    height: Dimensions.get('window').height * 0.2,
   },
   lightBlueLeftTriangle: {
     width: 0,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: Dimensions.get('window').width,
     borderBottomWidth: 0,
-    borderTopWidth: 150,
+    borderTopWidth: 151,
     borderLeftColor: 'transparent',
     borderRightColor: 'white',
     borderTopColor: 'transparent',
